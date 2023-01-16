@@ -1,34 +1,52 @@
 module Types exposing (..)
 
-import Browser exposing (UrlRequest)
-import Browser.Navigation exposing (Key)
-import Url exposing (Url)
-
-
-type alias FrontendModel =
-    { key : Key
-    , message : String
-    }
+import Http exposing (..)
+import Lamdera exposing (ClientId, SessionId)
+import Set exposing (Set)
+import W.Table exposing (bool)
 
 
 type alias BackendModel =
-    { message : String
+    { counter : Int
+    , wordList : List String
+    }
+
+
+type alias FrontendModel =
+    { counter : Int
+    , wordList : List String
+    , selectedWord : String
+    , clientId : String
+    , loading : Bool
     }
 
 
 type FrontendMsg
-    = UrlClicked UrlRequest
-    | UrlChanged Url
-    | NoOpFrontendMsg
+    = Increment
+    | Decrement
+    | FetchNewWords
+    | FNoop
+    | SelectWord String
+    | FNoop3 Int
 
 
 type ToBackend
-    = NoOpToBackend
+    = CounterIncremented
+    | CounterDecremented
+    | FetchNewWordsClicked
 
 
 type BackendMsg
-    = NoOpBackendMsg
+    = ClientConnected SessionId ClientId
+    | GotWordList ClientId (Result Http.Error WordType)
+      --| GetWordsTask (Result Error (List WordType))
+    | Noop
 
 
 type ToFrontend
-    = NoOpToFrontend
+    = CounterNewValue Int String
+    | SendWordListToFrontend (List String) String
+
+
+type alias WordType =
+    { words : List String }
