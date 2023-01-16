@@ -78,6 +78,9 @@ updateFromBackend msg model =
         SendWordListToFrontend newWords clientId ->
             ( { model | wordList = List.append [ "None" ] newWords, loading = False, clientId = clientId }, Cmd.none )
 
+        SendWordListFailedToFrontend newWords clientId ->
+            ( { model | wordList = newWords, loading = False, clientId = clientId }, Cmd.none )
+
 
 view : Model -> Html FrontendMsg
 view model =

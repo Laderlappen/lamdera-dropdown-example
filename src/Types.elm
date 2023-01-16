@@ -46,6 +46,7 @@ type BackendMsg
 type ToFrontend
     = CounterNewValue Int String
     | SendWordListToFrontend (List String) String
+    | SendWordListFailedToFrontend (List String) String
 
 
 type alias WordType =
